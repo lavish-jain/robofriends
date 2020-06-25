@@ -1,5 +1,4 @@
 import React from 'react';
-import 'tachyons';
 
 class Card extends React.Component {
     render() {
