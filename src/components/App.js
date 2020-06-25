@@ -4,6 +4,7 @@ import CardList from './CardList';
 import SearchBox from './SearchBox';
 import Loading from './Loading';
 import Scroll from './Scroll'
+import ErrorBoundary from './ErrorBoundary';
 import axios from 'axios';
 
 class App extends React.Component {
@@ -33,7 +34,9 @@ class App extends React.Component {
                 <h1 className='f1'>Robofriends</h1>
                 <SearchBox searchChange={this.onSearchChange} />
                 <Scroll>
-                    <CardList robots={filteredRobots} />
+                    <ErrorBoundary>
+                        <CardList robots={filteredRobots} />
+                    </ErrorBoundary>
                 </Scroll>
             </div>
         )
