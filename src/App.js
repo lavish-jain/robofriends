@@ -3,6 +3,7 @@ import './App.css';
 import CardList from './CardList';
 import SearchBox from './SearchBox';
 import Loading from './Loading';
+import Scroll from './Scroll'
 import axios from 'axios';
 
 class App extends React.Component {
@@ -30,7 +31,9 @@ class App extends React.Component {
             <div className='tc'>
                 <h1 className='f1'>Robofriends</h1>
                 <SearchBox searchChange={this.onSearchChange} />
-                <CardList robots={filteredRobots} />
+                <Scroll>
+                    <CardList robots={filteredRobots} />
+                </Scroll>
             </div>
         )
     }
