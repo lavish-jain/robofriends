@@ -5,10 +5,10 @@ class SearchBox extends React.Component {
         return (
             <div className='pa2'>
                 <input
-                onChange={this.props.searchChange} 
-                className='pa3 ba b--green bg-lightest-blue' 
-                type='input' 
-                placeholder='search robots' />
+                    onChange={this.props.searchChange}
+                    className='pa3 ba b--green bg-lightest-blue'
+                    type='input'
+                    placeholder='search robots' />
             </div>
         );
     }

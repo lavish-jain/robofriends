@@ -5,26 +5,32 @@ import SearchBox from './SearchBox';
 import Loading from './Loading';
 import Scroll from './Scroll'
 import ErrorBoundary from './ErrorBoundary';
-import axios from 'axios';
+import { connect } from 'react-redux';
+import { setSearchField, getRobots } from '../actions';
+
+const mapStateToProps = state => {
+    return {
+        searchField: state.searchRobots.searchField,
+        robots: state.getRobots.robots,
+        isPending: state.getRobots.isPending,
+    };
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onSearchChange: event => dispatch(setSearchField(event.target.value)),
+        onGetRobots: () => dispatch(getRobots()),
+    }
+}
 
 class App extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            robots: [],
-            searchField: '',
-        };
-    }
     componentDidMount() {
-        axios.get('https://jsonplaceholder.typicode.com/users').then(response => {
-            this.setState({ robots: response.data })
-
-        })
+        this.props.onGetRobots();
     }
     render() {
-        const { robots, searchField } = this.state;
+        const { searchField, onSearchChange, robots, isPending } = this.props;
         const filteredRobots = robots.filter(robot => robot.name.toLowerCase().includes(searchField.toLowerCase()));
-        if (!robots.length) {
+        if (isPending) {
             return (
                 <div className='tc'>
                     <Loading />
@@ -34,7 +40,7 @@ class App extends React.Component {
         return (
             <div className='tc'>
                 <h1 className='f1'>Robofriends</h1>
-                <SearchBox searchChange={this.onSearchChange} />
+                <SearchBox searchChange={onSearchChange} />
                 <Scroll>
                     <ErrorBoundary>
                         <CardList robots={filteredRobots} />
@@ -43,9 +49,6 @@ class App extends React.Component {
             </div>
         )
     }
-    onSearchChange = event => {
-        this.setState({ searchField: event.target.value })
-    }
 }
 
-export default App;
+export default connect(mapStateToProps, mapDispatchToProps)(App);
